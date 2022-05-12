@@ -1,10 +1,17 @@
 <template>
-  <nav>
-    <el-button type="success">Success</el-button>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
+
+<script>
+export default {
+  name:'app'
+};
+</script>
 
 <style>
 
 </style>
+
+
