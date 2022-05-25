@@ -7,34 +7,25 @@
       </div>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="demo-ruleForm" label-width="100px">
         <el-form-item label="注册账号" prop="username">
-          <el-icon>
-            <avatar/>
-          </el-icon>
-          <el-input class="input" v-model="ruleForm.username"></el-input>
+          <el-input class="input" v-model="ruleForm.username" prefix-icon="avatar"></el-input>
         </el-form-item>
         <el-form-item label="注册密码" prop="pass">
-          <el-icon>
-            <lock/>
-          </el-icon>
-          <el-input class="input" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+          <el-input class="input" type="password" v-model="ruleForm.pass" autocomplete="off"  prefix-icon="lock"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
-          <el-icon>
-            <lock/>
-          </el-icon>
-          <el-input class="input" type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+          <el-input class="input" type="password" v-model="ruleForm.checkPass" autocomplete="off" prefix-icon="lock"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-icon>
-            <message/>
-          </el-icon>
-          <el-input class="input" v-model="ruleForm.email"></el-input>
+          <el-input class="input" v-model="ruleForm.email" prefix-icon="message"></el-input>
         </el-form-item>
         <el-form-item label="手机" prop="phone">
-          <el-icon>
-            <iphone/>
-          </el-icon>
-          <el-input class="input" v-model="ruleForm.phone"></el-input>
+          <el-input class="input" v-model="ruleForm.phone" prefix-icon="iphone"></el-input>
+        </el-form-item>
+        <el-form-item label="职业" prop="profession">
+          <el-select v-model="ruleForm.profession" placeholder="请输入您的职业">
+            <el-option label="医生" value="doctor"/>
+            <el-option label="普通用户" value="consumer"/>
+          </el-select>
         </el-form-item>
         <div class="buttonControl">
           <el-button type="warning" @click="submitForm('ruleForm')">提交</el-button>
@@ -51,7 +42,7 @@ import {RegisterRequest} from "@/network/login";
 export default {
   name: "register",
   data() {
-    var validatePass = (rule, value, callback) => {
+    let validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
@@ -61,7 +52,7 @@ export default {
         callback();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
+    let validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
       } else if (value !== this.ruleForm.pass) {
@@ -77,6 +68,7 @@ export default {
         checkPass: '',
         email: '',
         phone: '',
+        profession: ''
       },
       rules: {
         username: [
@@ -97,7 +89,11 @@ export default {
         phone: [
           {required: true, message: '请输入电话号码', trigger: 'blur'},
           {pattern: /^1[3|5|7|8|9]\d{9}$/, message: '请输入正确的号码格式', trigger: 'change'}
-        ]
+        ],
+        profession: [
+          {required: true, message: '请输入您的职业', trigger: 'change',
+          },
+        ],
       }
     }
   },

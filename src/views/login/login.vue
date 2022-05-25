@@ -7,16 +7,10 @@
       <div class="headText">医疗app后台管理系统</div>
       <el-form ref="form" :model="formData" :rules="rules" label-width="150px" class="content">
         <el-form-item label="账号" prop="username">
-          <el-icon>
-            <avatar/>
-          </el-icon>
-          <el-input class="input" v-model="formData.username"></el-input>
+          <el-input class="input" v-model="formData.username" prefix-icon="avatar" ></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-icon>
-            <lock/>
-          </el-icon>
-          <el-input class="input" type="password" v-model="formData.password">
+          <el-input class="input" type="password" v-model="formData.password" prefix-icon="lock" >
           </el-input>
         </el-form-item>
         <el-form-item class="buttons">
@@ -59,8 +53,11 @@ export default {
           LoginRequest(this.formData.username, this.formData.password).then(res => {
             console.log(res)
             if (res.success) {
-              this.$message.success('登录成功')
-              this.$router.push({name: 'home'})
+              this.$message.success(  '登录成功')
+              console.log(res.user)
+              if(res.user.profession == 'admin'){
+                this.$router.push({name: 'home'})
+              }
             } else {
               this.$message.error('登录失败，没有账号或者密码错误');
             }
@@ -80,9 +77,7 @@ export default {
       this.$refs[formName].resetFields();
     },
     register() {
-      setTimeout(() => {
         this.$router.push({name: 'register'})
-      }, 500)
     },
   }
 }

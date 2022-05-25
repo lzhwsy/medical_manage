@@ -6,7 +6,10 @@ export function request(config) {
     timeout: 5000
   })
   instance.interceptors.request.use(config => {
+    //添加Token验证Authorization字段
+    config.headers.Authorization = window.sessionStorage.getItem('token')
     console.log(config)
+
     return config
   }, err => {
     console.log(err)

@@ -4,3 +4,24 @@ html,body,#app{
     padding: 0;
 }
 
+.el-breadcrumb{
+    margin: 15px;
+    font-size: 12px;
+}
+
+.el-card{
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15)!important;
+    position: relative;
+    left: 50px;
+    width: 90%;
+    height: 600px;
+}
+
+.el-pagination{
+    position: relative;
+    justify-content: center;
+}
+.el-row{
+    justify-content: space-evenly;
+
+}
