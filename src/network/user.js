@@ -2,7 +2,7 @@ import {request} from './request'
 
 export function HomeList(){
     return request({
-        url:'/home/homeList',
+        url:'/user/homeList',
         method:'POST',
     })
 }
@@ -10,7 +10,7 @@ export function HomeList(){
 export function DoctorUser(queryInfo){
     console.log(queryInfo)
     return request({
-        url:'/home/doctorUser',
+        url:'/user/doctorUser',
         method:'POST',
         data:{
             profession:'doctor',
@@ -21,7 +21,7 @@ export function DoctorUser(queryInfo){
 
 export function ConsumerUser(queryInfo){
     return request({
-        url:'/home/consumerUser',
+        url:'/user/consumerUser',
         method:'POST',
         data:{
             profession:'consumer',
@@ -29,10 +29,23 @@ export function ConsumerUser(queryInfo){
         }
     })
 }
+
+export function userIsLoginChanged(item){
+    console.log(item)
+    let id = item.user_id
+    return request({
+        url:'/user/userIsLoginChanged/'+ id,
+        method:'PUT',
+        data:{
+            item
+        }
+    })
+}
+
 export function EditDialog(item){
     let id = item.user_id
     return request({
-        url:'/home/EditUser/'+ id,
+        url:'/user/EditUser/'+ id,
         method:'PUT',
         data:{
             item
@@ -41,8 +54,10 @@ export function EditDialog(item){
 }
 export function DeleteUser(id){
     return request({
-        url:'/home/DeleteUser/'+ id,
+        url:'/user/DeleteUser/'+ id,
         method:'DELETE',
     })
 }
+
+
 

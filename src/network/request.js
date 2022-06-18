@@ -9,7 +9,6 @@ export function request(config) {
     //添加Token验证Authorization字段
     config.headers.Authorization = window.sessionStorage.getItem('token')
     console.log(config)
-
     return config
   }, err => {
     console.log(err)

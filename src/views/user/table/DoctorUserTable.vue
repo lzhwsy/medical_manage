@@ -1,11 +1,22 @@
 <template>
-  <el-table :data="DoctorUser" height="500" style="width: 100%">
+  <el-table :data="DoctorUser"  style="width: 100%">
     <el-table-column type="index" width="50"/>
+    <el-table-column  label="头像" width="100" v-slot="scope">
+      <head-picture-upload :picture="scope.row.userImg" :Id="scope.row.user_id"/>
+    </el-table-column>
     <el-table-column prop="username" label="姓名" width="120"/>
-    <el-table-column prop="email" label="邮箱" width="180"/>
+    <el-table-column prop="email" label="邮箱" width="120"/>
     <el-table-column prop="phone" label="联系方式" width="120"/>
     <el-table-column prop="profession" label="职业" width="120"/>
-    <el-table-column prop="create_time" label="创建时间" width="180"/>
+    <el-table-column  label="登录状态" width="180">
+      <template #default="scope" >
+        <el-switch v-model="scope.row.isLogin"
+                   :active-value="1"
+                   :inactive-value="0"
+                   @change="UpdateIsLogin(scope.row)"/>
+        <!--          {{scope.row}}-->
+      </template >
+    </el-table-column>
     <el-table-column label="操作" width="200">
       <template v-slot="scope">
         <el-button-group class="ml-4">
@@ -28,7 +39,10 @@
 
 <script>
 import EditDialog from "@/views/user/dialog/EditDialog";
-import {DeleteUser} from "@/network/home";
+import HeadPictureUpload from "@/components/content/upload/HeadPictureUpload";
+
+import {DeleteUser} from "@/network/user";
+import {userIsLoginChanged} from "@/network/user";
 
 export default {
   name: "DoctorUserTable",
@@ -36,11 +50,13 @@ export default {
     DoctorUser: {
       type: Object,
       default: {}
-    }
+    },
   },
   components: {
-    EditDialog
+    EditDialog,
+    HeadPictureUpload
   },
+
   methods: {
     ShowEdit(item) {
       this.$refs.DoctorEdit.UserDetail = item
@@ -61,6 +77,9 @@ export default {
               type: 'success',
               message: '删除成功',
             })
+        setTimeout(()=>{
+          this.$emit('getDoctorUser')
+        },200)
       })
           .catch(() => {
             ElMessage({
@@ -68,7 +87,16 @@ export default {
               message: '已经取消删除',
             })
           })
-
+    },
+    UpdateIsLogin(item){
+      userIsLoginChanged(item).then(res=>{
+        console.log(res)
+        if(res.flag){
+          this.$message.success(res.msg)
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
     }
 
 

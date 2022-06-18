@@ -1,50 +1,31 @@
 <template>
   <div>
-    <el-breadcrumb separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>医生用户管理</el-breadcrumb-item>
-    </el-breadcrumb>
+    <bread-crumb>
+      <template v-slot:one>用户管理</template>
+      <template v-slot:two>医生用户管理</template>
+    </bread-crumb>
     <el-card class="box-card">
       <el-row :gutter="10">
+<!--        查询-->
         <el-col :span="8">
-          <div class="mt-4">
-            <el-input placeholder="Please input"
-                      class="input-with-select"
-                      v-model="queryInfo.query"
-                      clearable
-                      @clear="getDoctorUser"
-            >
-              <template #append>
-                <el-button icon="Search" @click="getDoctorUser"></el-button>
-              </template>
-            </el-input>
-          </div>
+          <doctor-input :queryInfo="queryInfo" @getDoctorUser="getDoctorUser"></doctor-input>
         </el-col>
         <el-col :span="4">
           <el-button @click="DoctorDialog">添加用户</el-button>
         </el-col>
       </el-row>
+      <!--      //对话框-->
+      <user-dialog ref="DoctorDialog" @Add="getDoctorUser"></user-dialog>
 
-      <!--    表单-->
-      <doctor-user-table :DoctorUser="DoctorUser"></doctor-user-table>
+      <!--表单-->
+      <doctor-user-table :DoctorUser="DoctorUser" @getDoctorUser="getDoctorUser"></doctor-user-table>
 
-      <div class="fenye">
-        <el-pagination
-            v-model:currentPage="queryInfo.pageNum"
-            v-model:page-size="queryInfo.pageSize"
-            :page-sizes="[1, 2, 5, 10]"
-            :small="small"
-            :disabled="disabled"
-            :background="background"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-            @size-change="handleSizeChange"
-            @current-change="hzandleCurrentChange"
-        />
-      </div>
-<!--      //对话框-->
-      <user-dialog ref="DoctorDialog"></user-dialog>
+      <!--分页-->
+        <user-pagination :queryInfo="queryInfo"
+                           :total="total"
+                           @handleSizeChange="handleSizeChange"
+                           @handleCurrentChange="handleCurrentChange"></user-pagination>
+
     </el-card>
   </div>
 </template>
@@ -52,20 +33,26 @@
 <script>
 import DoctorUserTable from "@/views/user/table/DoctorUserTable";
 import UserDialog from "@/views/user/dialog/AddUserDialog";
+
 import BreadCrumb from "@/components/content/common/BreadCrumb";
-import {DoctorUser} from "@/network/home";
+import DoctorInput from "@/components/content/input/DoctorInput";
+import UserPagination from "@/components/content/pagination/UserPagination";
+
+import {DoctorUser} from "@/network/user";
 
 export default {
   name: "DoctorUser",
   components: {
     BreadCrumb,
     DoctorUserTable,
-    UserDialog
+    UserDialog,
+    DoctorInput,
+    UserPagination
   },
   data() {
     return {
       queryInfo: {
-        query:'',
+        query: '',
         pageNum: 1,//当前页码
         pageSize: 5 //每页条数
       },
@@ -91,12 +78,12 @@ export default {
       this.getDoctorUser()
     },
     // 监听页码值改变
-    hzandleCurrentChange(newPage) {
+    handleCurrentChange(newPage) {
       // console.log(newPage)
       this.queryInfo.pageNum = newPage
       this.getDoctorUser()
     },
-    DoctorDialog(){
+    DoctorDialog() {
       this.$refs.DoctorDialog.dialogVisible = true
     },
   },

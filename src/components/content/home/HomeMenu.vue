@@ -61,7 +61,10 @@ export default {
         10: "SuccessFilled",
         11: "Van",
         12: "OfficeBuilding",
-        13: "OfficeBuilding"
+        13: "OfficeBuilding",
+        14:"key",
+        15:"key",
+        16:"Avatar"
       },
       isCollapse: false
     }

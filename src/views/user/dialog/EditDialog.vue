@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {EditDialog} from "@/network/home";
+import {EditDialog} from "@/network/user";
 
 export default {
   name: "EditDialog",
@@ -76,9 +76,11 @@ export default {
             } else {
               this.$message.error('修改失败');
             }
+            this.EditDialogVisible = false
           })
         } else {
           this.$message.error('格式错误!!');
+          this.EditDialogVisible = false
           return false;
         }
       });

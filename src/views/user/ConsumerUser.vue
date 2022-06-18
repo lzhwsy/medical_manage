@@ -1,51 +1,33 @@
 <template>
   <div class="page-box">
-    <el-breadcrumb separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>消费者用户管理</el-breadcrumb-item>
-    </el-breadcrumb>
-    <!--搜索-->
+    <bread-crumb>
+      <template v-slot:one>用户管理</template>
+      <template v-slot:two>消费者用户管理</template>
+    </bread-crumb>
+
     <el-card class="box-card">
       <el-row :gutter="10">
+        <!--搜索-->
         <el-col :span="8">
-          <div class="mt-4">
-            <el-input placeholder="Please input"
-                      class="input-with-select"
-                      v-model="queryInfo.query"
-                      clearable
-                      @clear="getConsumerUser"
-            >
-              <template #append><el-button icon="Search" @click="getConsumerUser"></el-button>
-              </template>
-            </el-input>
-          </div>
+        <consumer-input :queryInfo="queryInfo" @getConsumerUser="getConsumerUser"></consumer-input>
         </el-col>
+        <!--添加-->
         <el-col :span="4">
           <el-button @click="dialog" >添加用户</el-button>
         </el-col>
       </el-row>
-
+      <!--    添加用户-->
+      <user-dialog ref="ConsumerDialog" @Add="getConsumerUser"></user-dialog>
       <!--    表单-->
-      <consumer-user-table :ConsumerUser="ConsumerUser"></consumer-user-table>
+      <consumer-user-table :ConsumerUser="ConsumerUser"
+                           @getConsumerUser="getConsumerUser"></consumer-user-table>
 
-      <div class="fenye">
-        <el-pagination
-          v-model:currentPage="queryInfo.pageNum"
-          v-model:page-size="queryInfo.pageSize"
-          :page-sizes="[1, 2, 5, 10]"
-          :small="small"
-          :disabled="disabled"
-          :background="background"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="hzandleCurrentChange"
-      /></div>
+      <!--  分页-->
+        <user-pagination :queryInfo="queryInfo"
+                         :total="total"
+                         @handleSizeChange="handleSizeChange"
+                         @handleCurrentChange="handleCurrentChange" />
     </el-card>
-<!--    添加用户-->
-    <user-dialog ref="ConsumerDialog"></user-dialog>
-
   </div>
 </template>
 
@@ -54,14 +36,20 @@ import ConsumerUserTable from "@/views/user/table/ConsumerUserTable";
 import UserDialog from "@/views/user/dialog/AddUserDialog";
 
 import BreadCrumb from "@/components/content/common/BreadCrumb";
-import {ConsumerUser} from "@/network/home";
+import ConsumerInput from "@/components/content/input/ConsumerInput";
+import UserPagination from "@/components/content/pagination/UserPagination";
+
+
+import {ConsumerUser, userIsLoginChanged} from "@/network/user";
 
 export default {
   name: "ConsumerUser",
   components: {
     BreadCrumb,
     ConsumerUserTable,
-    UserDialog
+    UserDialog,
+    ConsumerInput,
+    UserPagination
   },
   data() {
     return {
@@ -92,14 +80,14 @@ export default {
       this.getConsumerUser()
     },
     // 监听页码值改变
-    hzandleCurrentChange(newPage) {
+    handleCurrentChange(newPage) {
       // console.log(newPage)
       this.queryInfo.pageNum = newPage
       this.getConsumerUser()
     },
     dialog(){
         this.$refs.ConsumerDialog.dialogVisible =  true
-    }
+    },
   }
 }
 </script>

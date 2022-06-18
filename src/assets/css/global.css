@@ -14,7 +14,8 @@ html,body,#app{
     position: relative;
     left: 50px;
     width: 90%;
-    height: 600px;
+    height: 120%;
+
 }
 
 .el-pagination{
@@ -25,3 +26,17 @@ html,body,#app{
     justify-content: space-evenly;
 
 }
+
+.avatar-uploader{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.textForm{
+    margin-right: 5px;
+    opacity: 0.6;
+}
+
+
+
+

@@ -11,6 +11,7 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
 
 
+
 const app = createApp(App).use(ElementPlus).use(router).use(store).use(ArrowRight).use(Search)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)

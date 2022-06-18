@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      // this.dialogVisible = false
       this.$refs[formName].validate((valid) => {
         if (valid) {
           RegisterRequest(this.AddRuleForm).then(res => {
@@ -109,15 +108,19 @@ export default {
             } else {
               this.$message.error('添加失败');
             }
+            this.dialogVisible = false
+            this.$emit('Add')
           })
         } else {
           this.$message.error('添加失败!!');
+          this.dialogVisible = false
           return false;
         }
       });
+
     },
     CloseDialog(){
-      this.$refs.AddRuleForm.resetFields()
+        this.$refs.AddRuleForm.resetFields()
     }
   }
 }

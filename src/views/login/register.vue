@@ -63,12 +63,12 @@ export default {
     };
     return {
       ruleForm: {
-        username: '',
-        pass: '',
-        checkPass: '',
-        email: '',
-        phone: '',
-        profession: ''
+        username: 'asdasdasdasd',
+        pass: 'asdasd',
+        checkPass: 'asdasd',
+        email: 'asjidi@qq.com',
+        phone: '13662207006',
+        profession: 'consumer'
       },
       rules: {
         username: [
@@ -105,13 +105,14 @@ export default {
           RegisterRequest(this.ruleForm).then(res => {
             if (res.flag) {
               this.$message.success(res.msg)
+              setTimeout(() => {
+                this.$router.replace({name: 'login'})
+              }, 1000)
             } else {
               this.$message.error(res.msg);
             }
           })
-          setTimeout(() => {
-            this.$router.replace({name: 'login'})
-          }, 1000)
+
         } else {
           console.log('error submit!!');
           return false;

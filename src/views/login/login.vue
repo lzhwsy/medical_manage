@@ -7,10 +7,10 @@
       <div class="headText">医疗app后台管理系统</div>
       <el-form ref="form" :model="formData" :rules="rules" label-width="150px" class="content">
         <el-form-item label="账号" prop="username">
-          <el-input class="input" v-model="formData.username" prefix-icon="avatar" ></el-input>
+          <el-input class="input" v-model="formData.username" prefix-icon="avatar"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input class="input" type="password" v-model="formData.password" prefix-icon="lock" >
+          <el-input class="input" type="password" v-model="formData.password" prefix-icon="lock">
           </el-input>
         </el-form-item>
         <el-form-item class="buttons">
@@ -51,20 +51,17 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           LoginRequest(this.formData.username, this.formData.password).then(res => {
-            console.log(res)
             if (res.success) {
-              this.$message.success(  '登录成功')
+              this.$message.success('登录成功')
               console.log(res.user)
-              if(res.user.profession == 'admin'){
-                this.$router.push({name: 'home'})
-              }
+              this.$router.push({name: 'home'})
             } else {
               this.$message.error('登录失败，没有账号或者密码错误');
             }
-            // console.log(res.token)
             window.sessionStorage.setItem('token', res.token)
-
-
+            window.sessionStorage.setItem('user',res.user.username)
+            window.sessionStorage.setItem('userId',res.user.user_id)
+            window.sessionStorage.setItem('userHeadImg',res.user.userImg)
           })
         } else {
           console.log('error submit!!');
@@ -77,7 +74,7 @@ export default {
       this.$refs[formName].resetFields();
     },
     register() {
-        this.$router.push({name: 'register'})
+      this.$router.push({name: 'register'})
     },
   }
 }

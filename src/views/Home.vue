@@ -20,7 +20,7 @@
 import HomeHeader from "@/components/content/home/HomeHeader";
 import HomeMenu from 'components/content/home/HomeMenu'
 
-import {HomeList} from "@/network/home";
+import {HomeList} from "@/network/user";
 
 export default {
   components:{
